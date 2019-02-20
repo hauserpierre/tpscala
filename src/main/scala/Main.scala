@@ -20,7 +20,14 @@ object Main {
     for(test <- thisHour) println(test.time, test.host1, test.host2)
 
     //Afficher le serveur ayant le plus de connexions
-    
+
+
     //Afficher la connexion la plus récente
+    var mostRecentCo:Connexion = new Connexion
+    for(test <- file.list){
+      if(test.time.getTime > mostRecentCo.time.getTime) mostRecentCo = test
+    }
+    println("Connexion la plus récente")
+    println(mostRecentCo.time, mostRecentCo.host1, mostRecentCo.host2)
   }
 }
