@@ -4,7 +4,7 @@ import java.util.Date
 object Main {
   def main(args: Array[String]) : Unit = {
     val file = new Fichier
-    for (line <- Source.fromFile("fichierTest.txt").getLines){
+    for (line <- Source.fromFile("/home/picture/IdeaProjects/tpscala/src/main/scala/test.txt").getLines){
       var stuff:Array[java.lang.String] = line.split(" ").map(_.trim)
       var con:Connexion = new Connexion
       val date:Long = (stuff(0).toLong)*1000
@@ -20,14 +20,11 @@ object Main {
     for(test <- thisHour) println(test.time, test.host1, test.host2)
 
     //Afficher le serveur ayant le plus de connexions
-
+    var listH1 = file.list.map(x => x.toListOfString()).flatten.groupBy(identity).mapValues(_.size).maxBy(_._2)
+    println("Le serveur le plus sollicité : " + listH1)
 
     //Afficher la connexion la plus récente
-    var mostRecentCo:Connexion = new Connexion
-    for(test <- file.list){
-      if(test.time.getTime > mostRecentCo.time.getTime) mostRecentCo = test
-    }
-    println("Connexion la plus récente")
-    println(mostRecentCo.time, mostRecentCo.host1, mostRecentCo.host2)
+    var connexionRecente = file.list.sortBy(x => x.time).last
+    println("Connexion la plus récente : ",  connexionRecente.time, connexionRecente.host1, connexionRecente.host2)
   }
 }
